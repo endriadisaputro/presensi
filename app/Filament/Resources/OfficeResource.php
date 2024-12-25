@@ -20,6 +20,8 @@ class OfficeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -39,11 +41,13 @@ class OfficeResource extends Resource
                                 'wheelPxPerZoomLevel' => 60
                             ])
                             ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, $record) {
-                                $latitude = $record->latitude;
-                                $longitude = $record->longitude;
+                                if ($record) { // Pastikan $record tidak null
+                                    $latitude = $record->latitude;
+                                    $longitude = $record->longitude;
 
-                                if ($latitude && $longitude) {
-                                    $set('location', ['lat' => $latitude, 'lng' => $longitude]);
+                                    if ($latitude && $longitude) {
+                                        $set('location', ['lat' => $latitude, 'lng' => $longitude]);
+                                    }
                                 }
                             })
                             ->afterStateUpdated(function ($state, Forms\Get $get, Forms\Set $set) {
