@@ -20,7 +20,9 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-user-group';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 7;
+
+    protected static ?string $navigationGroup = 'User Management';
 
     public static function form(Form $form): Form
     {
@@ -49,6 +51,7 @@ class UserResource extends Resource
                                     ->multiple()
                                     ->preload()
                                     ->searchable(),
+                                Forms\Components\FileUpload::make('image')
                             ])
                     ])
             ]);
@@ -58,6 +61,8 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
